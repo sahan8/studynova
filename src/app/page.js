@@ -1,69 +1,57 @@
-import Image from "next/image";
+import { ArrowRight, BookOpenCheck, BrainCircuit, Calculator, CalendarClock, Clock3, Flame, GraduationCap, ListChecks, LockKeyhole, ShieldCheck, Sparkles, Target, TimerReset, UserRoundCheck, Zap } from "lucide-react";
+import Navbar from "@/components/navbar";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
-}
+const tools=[
+  {name:"GPA Calculator",description:"Calculate your semester GPA in seconds with a simple, accurate tool.",icon:Calculator,color:"violet",label:"Most popular",featured:true,href:"/gpa-calculator"},
+  {name:"Target GPA",description:"Find the grades you need to reach your academic goal.",icon:Target,color:"cyan",label:"Academic",href:"/target-gpa-calculator"},
+  {name:"CGPA Calculator",description:"Track your cumulative performance across every semester.",icon:GraduationCap,color:"blue",label:"Academic",href:"/cgpa-calculator"},
+  {name:"Study Planner",description:"Turn your goals and deadlines into a clear weekly plan.",icon:ListChecks,color:"pink",label:"Planning",href:"/study-planner"},
+  {name:"Focus Timer",description:"Stay in flow with focused sessions and intentional breaks.",icon:TimerReset,color:"amber",label:"Productivity",href:"/focus-timer"},
+  {name:"Exam Countdown",description:"Keep important exam dates visible and stay prepared.",icon:CalendarClock,color:"emerald",label:"Utilities"},
+];
+const features=[
+  {title:"100% Free",description:"Every essential tool is free to use, with no hidden fees or locked features.",icon:Sparkles},
+  {title:"Fast & Simple",description:"No learning curve. Get the answer or plan you need in just a few clicks.",icon:Zap},
+  {title:"Privacy Friendly",description:"Your work stays yours. Our core tools don't require an account to use.",icon:LockKeyhole},
+];
+const categories=[
+  {title:"Academic Calculators",detail:"GPA, CGPA & grade tools",icon:Calculator,href:"/academic-calculators"},
+  {title:"Productivity",detail:"Focus timers & task tools",icon:BrainCircuit},
+  {title:"Study Planning",detail:"Schedules & exam prep",icon:BookOpenCheck},
+  {title:"Student Utilities",detail:"Everyday student essentials",icon:GraduationCap},
+];
+const colors={violet:"border-violet-400/20 bg-violet-400/10 text-violet-300",cyan:"border-cyan-400/20 bg-cyan-400/10 text-cyan-300",blue:"border-blue-400/20 bg-blue-400/10 text-blue-300",pink:"border-fuchsia-400/20 bg-fuchsia-400/10 text-fuchsia-300",amber:"border-amber-400/20 bg-amber-400/10 text-amber-300",emerald:"border-emerald-400/20 bg-emerald-400/10 text-emerald-300"};
+
+function SectionHeading({eyebrow,title,description}){return <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16"><p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">{eyebrow}</p><h2 className="text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl md:text-5xl">{title}</h2>{description&&<p className="mt-4 text-pretty text-base leading-7 text-slate-400 sm:text-lg">{description}</p>}</div>}
+
+function ToolCard({tool}){const Icon=tool.icon;return <a href={tool.href||"#"} className={`tool-card group glass-card flex min-h-64 flex-col rounded-[22px] p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${tool.featured?"sm:col-span-2 lg:col-span-1 lg:row-span-1 featured-tool":""}`}><div className="relative z-10 flex h-full flex-col"><div className="mb-7 flex items-start justify-between"><div className={`flex size-12 items-center justify-center rounded-2xl border transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 ${colors[tool.color]}`}><Icon size={23} strokeWidth={1.8}/></div><span className="rounded-full border border-white/[0.08] bg-white/[0.035] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">{tool.label}</span></div><h3 className="text-xl font-semibold tracking-tight text-white">{tool.name}</h3><p className="mt-3 flex-1 text-sm leading-6 text-slate-400">{tool.description}</p><span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-200 transition-colors group-hover:text-cyan-300">Open tool <ArrowRight size={15} className="transition-transform group-hover:translate-x-1"/></span></div></a>}
+
+export default function Home(){return <div className="site-shell relative min-h-screen overflow-hidden bg-[#050711] text-slate-100">
+  <div className="background-grid pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true"><div className="orb -left-40 top-24 size-[34rem] bg-violet-600/20"/><div className="orb -right-36 top-[38rem] size-[32rem] bg-cyan-500/12 [animation-delay:-3s]"/><div className="orb left-1/3 top-[90rem] size-96 bg-blue-600/10 [animation-delay:-5s]"/></div>
+  <Navbar/>
+  <main>
+    <section id="home" className="relative px-5 pb-24 pt-28 sm:px-8 sm:pt-36 lg:min-h-[800px] lg:pb-28 lg:pt-44"><div className="hero-enter mx-auto max-w-6xl text-center lg:text-left">
+      <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-400/10 px-4 py-2 text-xs font-semibold text-violet-200 shadow-[0_0_30px_-12px_rgba(139,92,246,0.8)] backdrop-blur-md sm:text-sm"><Sparkles size={15}/> Your Student Toolkit</div>
+      <div className="relative lg:max-w-[62%]"><span className="heading-sparkle absolute -right-2 -top-6 hidden text-cyan-300 sm:block lg:right-10"><Sparkles size={24}/></span><h1 className="text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.055em] text-white sm:text-6xl md:text-7xl lg:text-[5.25rem]">Your Academic <span className="gradient-text gradient-glow">Superpower.</span></h1></div>
+      <p className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-slate-400 sm:text-xl lg:mx-0 lg:max-w-xl">Calculate smarter, plan better, stay focused, and reach your academic goals.</p>
+      <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start"><a href="#tools" className="primary-button group w-full sm:w-auto">Explore Tools <ArrowRight size={17} className="transition-transform group-hover:translate-x-1"/></a><a href="#why" className="secondary-button w-full sm:w-auto">See How It Works</a></div>
+
+      <div className="hero-preview mt-14 lg:absolute lg:right-[max(2rem,calc((100vw-72rem)/2))] lg:top-36 lg:mt-0 lg:w-[340px]">
+        <div className="preview-card glass-card rounded-[24px] p-6 text-left"><div className="mb-7 flex items-center justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Your GPA</p><p className="mt-2 text-5xl font-semibold tracking-[-0.06em] text-white">3.72</p></div><div className="flex size-12 items-center justify-center rounded-2xl border border-violet-400/20 bg-violet-400/10 text-violet-300"><GraduationCap size={23}/></div></div><p className="text-sm font-medium text-emerald-300">↑ +0.18 <span className="font-normal text-slate-500">this semester</span></p><div className="mt-7 flex items-center justify-between text-xs"><span className="text-slate-400">Progress toward First Class</span><span className="font-semibold text-white">82%</span></div><div className="mt-3 h-2 overflow-hidden rounded-full bg-white/[0.06]"><div className="progress-fill h-full w-[82%] rounded-full bg-gradient-to-r from-violet-500 via-blue-500 to-cyan-400"/></div><p className="mt-3 text-xs text-slate-500">Target: <span className="text-slate-300">3.80</span></p></div>
+        <div className="mini-card glass-card mt-3 flex items-center gap-3 rounded-2xl px-4 py-3 text-left lg:absolute lg:-left-16 lg:top-52 lg:mt-0"><span className="flex size-9 items-center justify-center rounded-xl bg-orange-400/10 text-orange-300"><Flame size={18}/></span><div><p className="text-sm font-semibold text-white">7 Day Study Streak</p><p className="text-[11px] text-slate-500">Keep the momentum</p></div></div>
+        <div className="mini-card mini-card-delay glass-card mt-3 flex items-center gap-3 rounded-2xl px-4 py-3 text-left lg:absolute lg:-right-10 lg:-bottom-14 lg:mt-0"><span className="flex size-9 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300"><Clock3 size={18}/></span><div><p className="text-sm font-semibold text-white">2h 45m Focused</p><p className="text-[11px] text-slate-500">Today&apos;s progress</p></div></div>
+      </div>
+
+      <div className="mx-auto mt-14 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3 lg:mx-0 lg:mt-16">{[{label:"Free Tools",icon:Sparkles},{label:"No Signup",icon:ShieldCheck},{label:"Student Friendly",icon:UserRoundCheck}].map(({label,icon:Icon})=><div key={label} className="benefit-pill glass-card flex items-center justify-center gap-2.5 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-300"><Icon size={15} className="text-cyan-300"/>{label}</div>)}</div>
+    </div></section>
+
+    <section id="tools" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto max-w-6xl"><SectionHeading eyebrow="Popular tools" title="Built for your best work" description="Everything you need to stay on top of your studies."/><div className="mb-8 flex flex-wrap justify-center gap-2" aria-label="Tool categories">{["All","Academic","Planning","Productivity","Utilities"].map((chip,index)=><span key={chip} className={`category-chip rounded-full border px-4 py-2 text-xs font-semibold ${index===0?"active":""}`}>{chip}</span>)}</div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{tools.map(tool=><ToolCard key={tool.name} tool={tool}/>)}</div></div></section>
+
+    <section id="why" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto max-w-6xl"><SectionHeading eyebrow="Why StudyNova" title="Less friction. More progress." description="The student toolkit that respects your time, your budget, and your privacy."/><div className="grid gap-4 md:grid-cols-3">{features.map(({title,description,icon:Icon})=><article key={title} className="glass-card rounded-[22px] p-7 transition duration-300 hover:border-white/15 hover:bg-white/[0.055]"><div className="mb-6 flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-cyan-400/10 text-cyan-200"><Icon size={21}/></div><h3 className="text-xl font-semibold text-white">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{description}</p></article>)}</div></div></section>
+
+    <section id="study" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto max-w-6xl"><SectionHeading eyebrow="Explore by category" title="A smarter tool for every task"/><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{categories.map(({title,detail,icon:Icon,href})=><a key={title} href={href||"#tools"} className="group glass-card rounded-[22px] p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><div className="mb-8 flex size-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] text-violet-200 transition group-hover:text-cyan-200"><Icon size={21}/></div><h3 className="font-semibold text-white">{title}</h3><p className="mt-2 text-sm text-slate-500">{detail}</p><ArrowRight size={17} className="mt-6 text-slate-500 transition group-hover:translate-x-1 group-hover:text-cyan-300"/></a>)}</div></div></section>
+
+    <section className="px-5 py-24 sm:px-8 lg:py-32"><div className="cta-panel relative mx-auto max-w-6xl overflow-hidden rounded-[24px] px-6 py-16 text-center sm:px-12 sm:py-20"><div className="pointer-events-none absolute left-1/2 top-0 h-40 w-2/3 -translate-x-1/2 rounded-full bg-violet-500/20 blur-[80px]"/><div className="relative"><p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Ready when you are</p><h2 className="mx-auto max-w-3xl text-balance text-3xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">Everything you need to study smarter.</h2><p className="mx-auto mt-5 max-w-xl text-slate-400">A growing collection of free tools, made to help you focus on what matters most.</p><a href="#tools" className="primary-button group mt-8">Start Exploring <ArrowRight size={17} className="transition-transform group-hover:translate-x-1"/></a></div></div></section>
+  </main>
+  <footer id="about" className="border-t border-white/[0.07] px-5 py-10 sm:px-8"><div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-7 sm:flex-row"><a href="#home" className="flex items-center gap-2.5 text-lg font-semibold text-white"><span className="logo-mark"><Sparkles size={16}/></span>StudyNova</a><nav aria-label="Footer navigation" className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-slate-400"><a className="transition hover:text-white" href="#tools">Tools</a><a className="transition hover:text-white" href="#about">About</a><a className="transition hover:text-white" href="#">Privacy</a><a className="transition hover:text-white" href="#">Terms</a></nav><p className="text-center text-xs text-slate-600">© 2026 StudyNova. Built for students.</p></div></footer>
+</div>}
