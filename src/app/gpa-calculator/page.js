@@ -3,13 +3,15 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import GpaCalculator from "@/components/calculators/GpaCalculator";
 import AcademicCalculatorNav from "@/components/calculators/AcademicCalculatorNav";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
+import SiteFooter from "@/components/SiteFooter";
+import { createMetadata, createWebApplicationData } from "@/lib/siteConfig";
 
-export const metadata={
-  title:"GPA Calculator — Calculate Your GPA Online | StudyNova",
-  description:"Calculate your GPA instantly with StudyNova's free GPA calculator. Add your modules, credits and grades to see your GPA automatically.",
-};
+const title="Free GPA Calculator — Calculate Your GPA | StudyNova",description="Calculate your GPA instantly using module grades and credits with StudyNova's free weighted GPA calculator.";
+export const metadata=createMetadata({title,description,path:"/gpa-calculator"});
 
-export default function GpaCalculatorPage(){return <div className="site-shell relative min-h-screen overflow-hidden bg-[#050711] text-slate-100">
+export default function GpaCalculatorPage(){return <div className="site-shell relative min-h-screen overflow-hidden bg-[#050711] text-slate-100"><JsonLd data={createWebApplicationData({name:"StudyNova GPA Calculator",description,path:"/gpa-calculator",category:"EducationalApplication"})}/>
   <div className="background-grid pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true"><div className="orb -left-40 top-24 size-[34rem] bg-violet-600/15"/><div className="orb -right-36 top-[44rem] size-[30rem] bg-cyan-500/10 [animation-delay:-3s]"/></div>
   <Navbar/>
   <main className="relative px-5 pb-24 pt-28 sm:px-8 sm:pt-36">
@@ -31,7 +33,8 @@ export default function GpaCalculatorPage(){return <div className="site-shell re
         <section className="glass-card rounded-[22px] p-7"><p className="mb-4 flex size-10 items-center justify-center rounded-xl bg-violet-400/10 text-violet-300"><Sparkles size={19}/></p><h2 className="text-2xl font-semibold tracking-tight text-white">How is GPA calculated?</h2><p className="mt-4 text-sm leading-7 text-slate-400">Your GPA is calculated by multiplying each module&apos;s grade point by its credit value, adding those results together, and dividing by the total number of credits.</p><div className="mt-6 overflow-x-auto rounded-2xl border border-white/[0.08] bg-black/20 px-5 py-4 text-center font-mono text-sm text-cyan-200">GPA = Σ (Credits × Grade Points) ÷ Σ Credits</div></section>
         <section className="glass-card rounded-[22px] p-7"><p className="mb-4 flex size-10 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300"><Calculator size={19}/></p><h2 className="text-2xl font-semibold tracking-tight text-white">How to use the StudyNova GPA Calculator</h2><ol className="mt-4 space-y-3 text-sm leading-6 text-slate-400"><li><span className="mr-2 font-semibold text-violet-300">1.</span>Enter a module name to keep your results easy to understand.</li><li><span className="mr-2 font-semibold text-violet-300">2.</span>Add its credit value and select the grade you earned.</li><li><span className="mr-2 font-semibold text-violet-300">3.</span>Add or remove modules as needed. Your weighted GPA updates instantly.</li></ol></section>
       </div>
+      <FaqSection items={[{question:"What is GPA?",answer:"GPA is a numerical summary of academic performance, usually calculated from the grade points earned across a set of modules."},{question:"How do I calculate GPA?",answer:"Multiply each grade point by its module credits, add the weighted points, then divide by the total valid credits."},{question:"Does every university use the same GPA scale?",answer:"No. Grade points, weighting rules, repeated-module policies and classifications vary, so check your university’s official guidance."}]}/>
     </div>
   </main>
-  <footer className="relative border-t border-white/[0.07] px-5 py-8 text-center text-xs text-slate-600">© 2026 StudyNova. Built for students.</footer>
+  <SiteFooter/>
 </div>}

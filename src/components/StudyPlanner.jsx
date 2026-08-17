@@ -14,12 +14,14 @@ const addDays=(date,days)=>{const copy=new Date(date);copy.setDate(copy.getDate(
 const formatRange=(start,end)=>{const sameMonth=start.getMonth()===end.getMonth();return `${start.toLocaleDateString(undefined,{month:"short",day:"numeric"})} – ${end.toLocaleDateString(undefined,sameMonth?{day:"numeric"}:{month:"short",day:"numeric"})}`};
 const formatMinutes=value=>{const hours=Math.floor(value/60),minutes=value%60;return hours?`${hours}h${minutes?` ${minutes}m`:""}`:`${minutes}m`};
 const blankForm=date=>({id:null,date,subject:"",time:"18:00",duration:"45",custom:"",note:"",completed:false});
+const validDateKey=value=>typeof value==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&!Number.isNaN(fromKey(value).getTime())&&localKey(fromKey(value))===value;
+const normalizeSession=item=>{const duration=Number(item?.duration);if(!item||typeof item.id!=="string"||!validDateKey(item.date)||typeof item.subject!=="string"||typeof item.time!=="string"||!/^\d{2}:\d{2}$/.test(item.time)||!Number.isFinite(duration)||duration<5||duration>480)return null;return {...item,subject:item.subject.slice(0,120),note:typeof item.note==="string"?item.note.slice(0,300):"",duration,completed:Boolean(item.completed)}};
 
 export default function StudyPlanner(){
   const router=useRouter(),[weekStart,setWeekStart]=useState(()=>startOfWeek(new Date())),[sessions,setSessions]=useState([]),[ready,setReady]=useState(false),[modal,setModal]=useState(null),[form,setForm]=useState(()=>blankForm(localKey(new Date()))),[clearOpen,setClearOpen]=useState(false),[quick,setQuick]=useState({subject:"",duration:"45",day:localKey(new Date())});
-  useEffect(()=>{const hydrate=setTimeout(()=>{try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(Array.isArray(saved))setSessions(saved.filter(item=>item&&typeof item.id==="string"&&typeof item.date==="string"&&typeof item.subject==="string"))}catch{}setReady(true)},0);return()=>clearTimeout(hydrate)},[]);
+  useEffect(()=>{const hydrate=setTimeout(()=>{try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(Array.isArray(saved))setSessions(saved.map(normalizeSession).filter(Boolean))}catch{}setReady(true)},0);return()=>clearTimeout(hydrate)},[]);
   useEffect(()=>{const close=event=>{if(event.key==="Escape"){setModal(null);setClearOpen(false)}};window.addEventListener("keydown",close);return()=>window.removeEventListener("keydown",close)},[]);
-  const persist=next=>{setSessions(next);localStorage.setItem(STORAGE_KEY,JSON.stringify(next))};
+  const persist=next=>{setSessions(next);try{localStorage.setItem(STORAGE_KEY,JSON.stringify(next))}catch{}};
   const dates=useMemo(()=>DAYS.map((name,index)=>({name,date:addDays(weekStart,index),key:localKey(addDays(weekStart,index))})),[weekStart]);
   const weekKeys=new Set(dates.map(day=>day.key)),weekSessions=sessions.filter(item=>weekKeys.has(item.date)),todayKey=localKey(new Date()),todaySessions=sessions.filter(item=>item.date===todayKey).sort((a,b)=>a.time.localeCompare(b.time));
   const completed=weekSessions.filter(item=>item.completed).length,totalMinutes=weekSessions.reduce((sum,item)=>sum+item.duration,0),percent=weekSessions.length?Math.round(completed/weekSessions.length*100):0;
@@ -28,7 +30,7 @@ export default function StudyPlanner(){
   const save=event=>{event.preventDefault();const duration=form.duration==="custom"?Number(form.custom):Number(form.duration);if(!form.subject.trim()||!form.time||!Number.isFinite(duration)||duration<5||duration>480)return;const item={id:form.id||`${Date.now()}-${Math.random().toString(36).slice(2,8)}`,date:form.date,subject:form.subject.trim().slice(0,120),time:form.time,duration,note:form.note.trim().slice(0,300),completed:Boolean(form.completed)};persist(form.id?sessions.map(old=>old.id===form.id?item:old):[...sessions,item]);setModal(null)};
   const remove=id=>persist(sessions.filter(item=>item.id!==id));
   const toggle=id=>persist(sessions.map(item=>item.id===id?{...item,completed:!item.completed}:item));
-  const startFocus=item=>{sessionStorage.setItem("studynova-focus-handoff-v1",JSON.stringify({task:item.subject,duration:Math.min(120,item.duration)}));router.push("/focus-timer")};
+  const startFocus=item=>{try{sessionStorage.setItem("studynova-focus-handoff-v1",JSON.stringify({task:item.subject,duration:Math.min(120,item.duration)}))}catch{}router.push("/focus-timer")};
   const quickAdd=event=>{event.preventDefault();if(!quick.subject.trim())return;const duration=Number(quick.duration);persist([...sessions,{id:`${Date.now()}-${Math.random().toString(36).slice(2,8)}`,date:quick.day,subject:quick.subject.trim().slice(0,120),time:"18:00",duration,note:"",completed:false}]);setQuick(old=>({...old,subject:""}))};
   const clearWeek=()=>{persist(sessions.filter(item=>!weekKeys.has(item.date)));setClearOpen(false)};
   if(!ready)return <div className="glass-card flex min-h-80 items-center justify-center rounded-[24px] text-sm text-slate-500">Loading your study plan…</div>;
