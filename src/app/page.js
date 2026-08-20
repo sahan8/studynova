@@ -1,21 +1,22 @@
-import { ArrowRight, BookOpenCheck, BrainCircuit, Calculator, CalendarClock, Clock3, Flame, GraduationCap, ListChecks, LockKeyhole, ShieldCheck, Sparkles, Target, TimerReset, UserRoundCheck, Zap } from "lucide-react";
+import { ArrowRight, BookOpenCheck, BrainCircuit, Calculator, Clock3, Flame, GraduationCap, LockKeyhole, ShieldCheck, Sparkles, UserRoundCheck, Zap } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import JsonLd from "@/components/JsonLd";
 import { absoluteUrl, createMetadata, siteConfig } from "@/lib/siteConfig";
 import BrandLogo from "@/components/BrandLogo";
+import ToolExplorer from "@/components/ToolExplorer";
 
 const homeTitle="StudyNova — Free Academic & Study Tools for Students";
 const homeDescription="Free GPA calculators, study planning tools, focus timers and student utilities designed to help you calculate, plan and study smarter.";
 export const metadata=createMetadata({title:homeTitle,description:homeDescription,path:"/"});
 
 const tools=[
-  {name:"GPA Calculator",description:"Calculate your semester GPA in seconds with a simple, accurate tool.",icon:Calculator,color:"violet",label:"Most popular",featured:true,href:"/gpa-calculator"},
-  {name:"Target GPA",description:"Find the grades you need to reach your academic goal.",icon:Target,color:"cyan",label:"Academic",href:"/target-gpa-calculator"},
-  {name:"CGPA Calculator",description:"Track your cumulative performance across every semester.",icon:GraduationCap,color:"blue",label:"Academic",href:"/cgpa-calculator"},
-  {name:"Study Planner",description:"Turn your goals and deadlines into a clear weekly plan.",icon:ListChecks,color:"pink",label:"Planning",href:"/study-planner"},
-  {name:"Focus Timer",description:"Stay in flow with focused sessions and intentional breaks.",icon:TimerReset,color:"amber",label:"Productivity",href:"/focus-timer"},
-  {name:"Exam Countdown",description:"Keep important exam dates visible and stay prepared.",icon:CalendarClock,color:"emerald",label:"Coming soon"},
+  {name:"GPA Calculator",description:"Calculate your semester GPA in seconds with a simple, accurate tool.",icon:"Calculator",color:"violet",label:"Most popular",category:"Academic",featured:true,href:"/gpa-calculator"},
+  {name:"Target GPA",description:"Find the grades you need to reach your academic goal.",icon:"Target",color:"cyan",label:"Academic",category:"Academic",href:"/target-gpa-calculator"},
+  {name:"CGPA Calculator",description:"Track your cumulative performance across every semester.",icon:"GraduationCap",color:"blue",label:"Academic",category:"Academic",href:"/cgpa-calculator"},
+  {name:"Study Planner",description:"Turn your goals and deadlines into a clear weekly plan.",icon:"ListChecks",color:"pink",label:"Planning",category:"Planning",href:"/study-planner"},
+  {name:"Focus Timer",description:"Stay in flow with focused sessions and intentional breaks.",icon:"TimerReset",color:"amber",label:"Productivity",category:"Productivity",href:"/focus-timer"},
+  {name:"Exam Countdown",description:"Keep important exam dates visible and stay prepared.",icon:"CalendarClock",color:"emerald",label:"Coming soon",category:"Utilities"},
 ];
 const features=[
   {title:"100% Free",description:"Every essential tool is free to use, with no hidden fees or locked features.",icon:Sparkles},
@@ -31,8 +32,6 @@ const categories=[
 const colors={violet:"border-violet-400/20 bg-violet-400/10 text-violet-300",cyan:"border-cyan-400/20 bg-cyan-400/10 text-cyan-300",blue:"border-blue-400/20 bg-blue-400/10 text-blue-300",pink:"border-fuchsia-400/20 bg-fuchsia-400/10 text-fuchsia-300",amber:"border-amber-400/20 bg-amber-400/10 text-amber-300",emerald:"border-emerald-400/20 bg-emerald-400/10 text-emerald-300"};
 
 function SectionHeading({eyebrow,title,description}){return <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16"><p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">{eyebrow}</p><h2 className="text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl md:text-5xl">{title}</h2>{description&&<p className="mt-4 text-pretty text-base leading-7 text-slate-400 sm:text-lg">{description}</p>}</div>}
-
-function ToolCard({tool}){const Icon=tool.icon,content=<div className="relative z-10 flex h-full flex-col"><div className="mb-7 flex items-start justify-between"><div className={`flex size-12 items-center justify-center rounded-2xl border transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 ${colors[tool.color]}`}><Icon size={23} strokeWidth={1.8}/></div><span className="rounded-full border border-white/[0.08] bg-white/[0.035] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">{tool.label}</span></div><h3 className="text-xl font-semibold tracking-tight text-white">{tool.name}</h3><p className="mt-3 flex-1 text-sm leading-6 text-slate-400">{tool.description}</p><span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-200 transition-colors group-hover:text-cyan-300">{tool.href?"Open tool":"Not yet available"}{tool.href&&<ArrowRight size={15} className="transition-transform group-hover:translate-x-1"/>}</span></div>;const classes=`tool-card group glass-card flex min-h-64 flex-col rounded-[22px] p-6 ${tool.featured?"sm:col-span-2 lg:col-span-1 lg:row-span-1 featured-tool":""}`;return tool.href?<Link href={tool.href} className={`${classes} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300`}>{content}</Link>:<article className={`${classes} opacity-80`}>{content}</article>}
 
 export default function Home(){const websiteUrl=absoluteUrl("/");return <div className="site-shell relative min-h-screen overflow-hidden bg-[#050711] text-slate-100"><JsonLd data={{"@context":"https://schema.org","@type":"WebSite",name:siteConfig.name,description:homeDescription,...(websiteUrl?{url:websiteUrl}:{})}}/>
   <div className="background-grid pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true"><div className="orb -left-40 top-24 size-[34rem] bg-violet-600/20"/><div className="orb -right-36 top-[38rem] size-[32rem] bg-cyan-500/12 [animation-delay:-3s]"/><div className="orb left-1/3 top-[90rem] size-96 bg-blue-600/10 [animation-delay:-5s]"/></div>
@@ -53,7 +52,7 @@ export default function Home(){const websiteUrl=absoluteUrl("/");return <div cla
       <div className="mx-auto mt-14 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3 lg:mx-0 lg:mt-16">{[{label:"Free Tools",icon:Sparkles},{label:"No Signup",icon:ShieldCheck},{label:"Student Friendly",icon:UserRoundCheck}].map(({label,icon:Icon})=><div key={label} className="benefit-pill glass-card flex items-center justify-center gap-2.5 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-300"><Icon size={15} className="text-cyan-300"/>{label}</div>)}</div>
     </div></section>
 
-    <section id="tools" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto max-w-6xl"><SectionHeading eyebrow="Popular tools" title="Built for your best work" description="Everything you need to stay on top of your studies."/><div className="mb-8 flex flex-wrap justify-center gap-2" aria-label="Tool categories">{["All","Academic","Planning","Productivity","Utilities"].map((chip,index)=><span key={chip} className={`category-chip rounded-full border px-4 py-2 text-xs font-semibold ${index===0?"active":""}`}>{chip}</span>)}</div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{tools.map(tool=><ToolCard key={tool.name} tool={tool}/>)}</div></div></section>
+    <section id="tools" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto max-w-6xl"><SectionHeading eyebrow="Popular tools" title="Built for your best work" description="Everything you need to stay on top of your studies."/><ToolExplorer tools={tools} colors={colors}/></div></section>
 
     <section id="why" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto max-w-6xl"><SectionHeading eyebrow="Why StudyNova" title="Less friction. More progress." description="The student toolkit that respects your time, your budget, and your privacy."/><div className="grid gap-4 md:grid-cols-3">{features.map(({title,description,icon:Icon})=><article key={title} className="glass-card rounded-[22px] p-7 transition duration-300 hover:border-white/15 hover:bg-white/[0.055]"><div className="mb-6 flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-cyan-400/10 text-cyan-200"><Icon size={21}/></div><h3 className="text-xl font-semibold text-white">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{description}</p></article>)}</div></div></section>
 

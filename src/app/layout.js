@@ -1,5 +1,6 @@
 import "./globals.css";
 import { getSocialImage, siteConfig } from "@/lib/siteConfig";
+import MotionEffects from "@/components/MotionEffects";
 
 const socialImage=getSocialImage();
 
@@ -17,5 +18,5 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return <html lang="en" className="h-full scroll-smooth antialiased"><body className="min-h-full font-sans">{children}</body></html>;
+  return <html lang="en" className="h-full scroll-smooth antialiased"><body className="min-h-full font-sans"><a href="#main-content" className="skip-link">Skip to main content</a><MotionEffects/>{children}</body></html>;
 }
