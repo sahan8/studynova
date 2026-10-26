@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# StudyNova
 
-## Getting Started
+Free academic and study tools for students: GPA calculators, a study planner and a focus timer. No sign-up, and your data stays in your browser.
 
-First, run the development server:
+![StudyNova home](screenshots/home.webp)
+
+## Tools
+
+- **GPA Calculator:** semester GPA from module grades and credits
+- **Target GPA Calculator:** the grades you need to reach a goal
+- **CGPA Calculator:** cumulative GPA across semesters
+- **Study Planner:** turn subjects and deadlines into a weekly plan, with daily and weekly goals
+- **Focus Timer:** Pomodoro sessions with breaks, session stats and sound/notification controls
+
+The site also has SEO metadata, a sitemap, JSON-LD and scroll animations that respect reduced-motion settings.
+
+## Screenshots
+
+### GPA Calculator
+![GPA Calculator](screenshots/gpa-calculator.webp)
+
+### Study Planner
+![Study Planner](screenshots/study-planner.webp)
+
+### Focus Timer
+![Focus Timer](screenshots/focus-timer.webp)
+
+## Tech stack
+
+| Part | Technology |
+| --- | --- |
+| Framework | Next.js (App Router), React |
+| Styling | Tailwind CSS |
+| Icons | Lucide |
+
+## Run it locally
 
 ```bash
+cp .env.example .env.local   # optional: set your public site URL
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```
